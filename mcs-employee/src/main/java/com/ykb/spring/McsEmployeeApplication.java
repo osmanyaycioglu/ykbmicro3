@@ -2,13 +2,14 @@ package com.ykb.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
-// @SpringBootApplication(scanBasePackages = {"com.ykb.spring","com.ykb.handler"})
 @SpringBootApplication
-public class FirstBootAppApplication {
+@EnableEurekaClient
+public class McsEmployeeApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(FirstBootAppApplication.class,
+        SpringApplication.run(McsEmployeeApplication.class,
                               args);
     }
 

@@ -1,7 +1,11 @@
 package com.ykb.spring;
 
+import java.security.Principal;
 import java.time.ZonedDateTime;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/first")
+//@RequestScope
+//@SessionScope
+//@ApplicationScope
 public class MyFirstRestClass {
+
+    public MyFirstRestClass() {
+        System.out.println("ben yaratıldım : " + MyFirstRestClass.class);
+    }
 
     @GetMapping("/hello")
     public String hello() {
@@ -95,6 +106,31 @@ public class MyFirstRestClass {
         person.setCurrentTime(ZonedDateTime.now());
         return person;
     }
+
+    @PostMapping(value = "/hello10",
+                 consumes = {
+                              MediaType.APPLICATION_JSON_VALUE,
+                              "application/xml"
+                 },
+                 produces = {
+                              MediaType.APPLICATION_JSON_VALUE,
+                              MediaType.APPLICATION_XML_VALUE
+                 })
+    public Person hello10(@Validated @RequestBody final Person person) {
+        person.setAge(99);
+        person.setCurrentTime(ZonedDateTime.now());
+        return person;
+    }
+
+    @PostMapping("/hello11")
+    public Person hello11(@Validated @RequestBody final Person person,
+                          final HttpServletRequest hs,
+                          final Principal p) {
+        person.setAge(99);
+        person.setCurrentTime(ZonedDateTime.now());
+        return person;
+    }
+
 
 }
 

@@ -5,7 +5,9 @@ import java.time.ZonedDateTime;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Person {
 
     private String        name;
