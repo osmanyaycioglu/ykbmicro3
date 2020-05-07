@@ -2,16 +2,16 @@ package com.ykb.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.bus.jackson.RemoteApplicationEventScan;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 @SpringBootApplication
+@EnableZuulProxy
 @EnableEurekaClient
-@RemoteApplicationEventScan
-public class McsEmployeeApplication {
+public class CloudApiGatewayApplication {
 
     public static void main(final String[] args) {
-        SpringApplication.run(McsEmployeeApplication.class,
+        SpringApplication.run(CloudApiGatewayApplication.class,
                               args);
     }
 

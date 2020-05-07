@@ -9,10 +9,15 @@ public class MyHealth implements HealthIndicator {
 
     @Override
     public Health health() {
-        return Health.down()
-                     .withDetail("error",
-                                 "şu anda doluyum")
+        return Health.up()
+                     .withDetail("success",
+                                 "iyiyim")
                      .build();
+
+        //        return Health.down()
+        //                     .withDetail("error",
+        //                                 "şu anda doluyum")
+        //                     .build();
     }
 
 }
