@@ -1,0 +1,7 @@
+FROM openjdk:8-jdk-alpine
+VOLUME /test
+ADD target/first-boot-app-1.0.0.jar /test/first-boot-app-1.0.0.jar
+ENV JAVA_OPTS="-Dserver.port:10000"
+ENTRYPOINT [ "sh","-c","java ${JAVA_OPTS} -jar /test/first-boot-app-1.0.0.jar" ]
+
+

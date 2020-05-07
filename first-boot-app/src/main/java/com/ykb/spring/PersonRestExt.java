@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/v1/personext")
 public class PersonRestExt {
@@ -38,6 +42,11 @@ public class PersonRestExt {
     }
 
     @PostMapping("/add")
+    @ApiOperation(notes = "test notes", value = "value test")
+    @ApiResponses({
+                    @ApiResponse(code = 800, message = "Error oluştuğunda döner"),
+                    @ApiResponse(code = 801, message = "xyz Error oluştuğunda döner")
+    })
     public String addPerson(@RequestBody final Person personParam) {
         this.pm.addPerson(personParam);
         return "OK";

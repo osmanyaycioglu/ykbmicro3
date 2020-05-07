@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+
 @RestController
 @RequestMapping("/organization")
 @RefreshScope
@@ -23,6 +26,11 @@ public class OrganizationRest {
     @Value("${my.propery}")
     private String          myConf;
 
+    @HystrixCommand(fallbackMethod = "createEmployeeFallback",
+                    commandProperties = {
+                                          @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
+                                                           value = "1500")
+                    })
     @PostMapping("/create_employee")
     public String createEmployee() {
         Department dLoc = new Department();
@@ -36,6 +44,10 @@ public class OrganizationRest {
                                dLoc);
 
         return this.ec.greet();
+    }
+
+    public String createEmployeeFallback() {
+        return "Fallback create employee";
     }
 
     @GetMapping("test")

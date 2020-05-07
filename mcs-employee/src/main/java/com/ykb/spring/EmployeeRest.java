@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.ykb.spring.cloud.bus.MyRemoteEvent;
 
 @RestController
@@ -30,16 +32,38 @@ public class EmployeeRest {
     @Autowired
     private SpringCloudBusClient scbc;
 
+    private int                  counter;
 
+    @HystrixCommand(fallbackMethod = "greetFallback",
+                    commandProperties = {
+                                          @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",
+                                                           value = "500")
+                    })
     @GetMapping("/greet")
     public String greet() {
+        this.counter++;
+        if ((this.counter % 3) == 0) {
+            throw new IllegalArgumentException();
+        }
+        if ((this.counter % 5) == 0) {
+            try {
+                Thread.sleep(1_000);
+            } catch (Exception eLoc) {
+            }
+        }
         return "Hello Employee " + this.port;
     }
+
+    public String greetFallback() {
+        return "Fallback " + this.port;
+    }
+
 
     @GetMapping("test")
     public String abc() {
         return this.myConf;
     }
+
 
     @GetMapping("/event")
     public String event() {
